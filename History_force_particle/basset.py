@@ -3,12 +3,24 @@ import numpy as np
 def particle_vel():
     #function that returns particle velcoity for a given time
     #uses drag+gravity in Maxey & Riley equation
-    #impleemnts forward difference finite difference method
+    #implements forward difference finite difference method
     up = np.zeros(len(time))
     for it in range(len(time)):
         up[it] = (del_t/m_p) * (-6*np.pi*mu*0.5*dp*(uf-up[it-1]) +((m_p-m_f)*g))
 
     return up
+
+def particle_basset():
+    #function that returns particle velcoity for a given time
+    #uses drag+gravity in Maxey & Riley equation
+    #implements forward difference finite difference method
+    up = np.zeros(len(time))
+    for it in range(len(time)):
+
+        up[it] = (del_t/m_p) * (-6*np.pi*mu*0.5*dp*(uf-up[it-1]) +((m_p-m_f)*g) + F_b)
+
+    return up
+
 
 
 if __name__ =="__main__":
@@ -39,6 +51,7 @@ if __name__ =="__main__":
     uf =0
     #particle velocity calculated
     vel = particle_vel()
+    print(range(len(time)))
     print(vel[-5:-1])
 
     
