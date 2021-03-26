@@ -5,7 +5,7 @@ def particle_vel():
     #uses drag+gravity in Maxey & Riley equation
     #implements forward difference finite difference method
     up = np.zeros(len(time))
-    for it in range(1,len(time)+1):
+    for it in range(1,len(time)):
         up[it] = (del_t/m_p) * (-6*np.pi*mu*0.5*dp*(uf[it-1]-up[it-1]) +((m_p-m_f)*g))
 
     return up
@@ -18,7 +18,7 @@ def particle_vel_history():
     g_t = np.zeros(len(time))
     C_b = 6 * (0.5*dp**2) * rho_f *np.sqrt(np.pi * nu)
 
-    for it in range(1,len(time)+1):
+    for it in range(1,len(time)):
         N=it-1
         start_ind = N- (N_win -1)
         if it == 1:
@@ -55,7 +55,7 @@ def particle_vel_history():
                     +C_b * del_t * temp_sum
 
         #particle velocity
-        up[it] = (del_t/m_p) * (-6*np.pi*mu*0.5*dp*(uf-up[it-1]) +((m_p-m_f)*g ) +F_h)
+        up[it] = (del_t/m_p) * (-6*np.pi*mu*0.5*dp*(uf[it-1]-up[it-1]) +((m_p-m_f)*g ) +F_h)
         #acceleration
         g_t[it] = ((uf[it] - uf[it-1])/del_t) - ((up[it] - up[it-1])/del_t)
 
@@ -93,7 +93,7 @@ if __name__ =="__main__":
     print(vel[-5:-1])
     N_win = 5 #python index from 0 to N-1 5points here from 0 to N-1
     vel_history = particle_vel_history()
-    print(vel_history[-5,-1])
+    print(vel_history[-5:-1])
     
 
     
