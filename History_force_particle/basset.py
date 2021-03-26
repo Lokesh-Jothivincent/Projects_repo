@@ -10,7 +10,7 @@ def particle_vel():
 
     return up
 
-def particle_basset():
+def particle_history():
     #function that returns particle velcoity for a given time
     #uses drag+gravity in Maxey & Riley equation
     #implements forward difference finite difference method
