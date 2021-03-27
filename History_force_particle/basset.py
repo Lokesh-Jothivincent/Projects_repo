@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 def particle_vel():
     #function that returns particle velcoity for a given time
@@ -91,7 +92,7 @@ if __name__ =="__main__":
     dp = 1.0
     Re_p = 0.1
     #densities
-    rho_p = 1.8
+    rho_p = 1.1
     rho_f = 1.0
     #gravity
     g = 1.0
@@ -107,7 +108,7 @@ if __name__ =="__main__":
     #particle relaxation time.
     tau_p=rho_p*dp**2/(18*mu) 
     N_tot=256
-    time=np.linspace(0,2*np.pi,N_tot)
+    time=np.linspace(0,0.1*np.pi,N_tot)
     del_t = time[1]-time[0]
     #quiescent fluid
     uf =np.zeros(len(time))
@@ -122,6 +123,12 @@ if __name__ =="__main__":
     N_win = 5 #python index from 0 to N-1 5points here from 0 to N-1
     vel_history = particle_vel_history()
     print(vel_history[-5:-1])
+
+    ###########plotting
+    plt.figure(1)
+    plt.plot(time,vel)
+    plt.plot(time,vel_history)
+    plt.show()
     
 
     
