@@ -21,6 +21,9 @@ def particle_vel_history():
     for it in range(1,len(time)):
         N=it-1
         start_ind = N- (N_win -1)
+        #array to be susind in tail aprt computation
+        Fi_old = np.zeros(10)
+        Fi_new = np.zeros(10)
         if it == 1:
             F_h = (4/3)*C_b * g_t[N]*del_t
 
@@ -38,6 +41,7 @@ def particle_vel_history():
                     +C_b * del_t * temp_sum
 
         else:
+            #######################window part###########################
             #starting index
             start_ind = N- (N_win -1)
             #for loop for calculating third term
@@ -50,9 +54,28 @@ def particle_vel_history():
                     + ((n-(4/3)) / ((n-1)**1.5 +(n-1.5)*(n**0.5) ))   )
                 rev_ind -=1
             #history force
-            F_h = (4/3)*C_b * g_t[N]*del_t + C_b*g_t[start_ind] * \
+            F_h_win = (4/3)*C_b * g_t[N]*del_t + C_b*g_t[start_ind] * \
                 ( ( N-(4/3) )/( (N-1)**1.5 +(N-1.5)* (N**0.5) )) \
                     +C_b * del_t * temp_sum
+            F_h_tail = 0
+            #############tail part###################
+            for m in range(10):
+                phi = lambda z : 1 + 0.5 *z + (1/6) * (z**2)
+                #g_N
+                first = g_t[start_ind] * (1- phi(-0.5*del_t/ti_bar[m]))
+                #g_N+1
+                second = g_t[start_ind - 1] * np.exp(-0.5*del_t/ti_bar[m]) * \
+                    (phi(0.5*del_t/ti_bar[m]) -1)
+                #t_win = N_w *del_t
+                F_h_di = 2* C_b * (np.exp(1) *ti_bar[m]) * np.exp(-0.5 * N_win *del_t/ ti_bar[m]) \
+                    * (first + second)
+                F_h_re = np.exp(-0.5 * del_t/ti_bar[m]) * Fi_old[m]
+                Fi_new[m] = F_h_di + F_h_re
+                Fi_old[m] = Fi_new[m]
+                
+                F_h_tail += ai[m] * Fi_new[m]
+            F_h = F_h_win + F_h_tail
+
 
         #particle velocity
         up[it] = (del_t/m_p) * (-6*np.pi*mu*0.5*dp*(uf[it-1]-up[it-1]) +((m_p-m_f)*g ) +F_h)
@@ -88,6 +111,11 @@ if __name__ =="__main__":
     del_t = time[1]-time[0]
     #quiescent fluid
     uf =np.zeros(len(time))
+    #coeeficients for tail calculation
+    ai=[0.23477481312586,0.28549576238194,0.28479416718255,0.26149775537574 \
+        ,0.32056200511938,0.35354490689146,0.39635904496921,0.42253908596514 \
+            ,0.48317384225265,0.63661146557001]
+    ti_bar=[0.1,0.3,1,3,10,40,190,1000,6500,50000]
     #particle velocity calculated
     vel = particle_vel()
     print(vel[-5:-1])
