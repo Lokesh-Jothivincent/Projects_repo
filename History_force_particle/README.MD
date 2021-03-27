@@ -9,4 +9,4 @@ particle is accounted using history force term.This is usually ignored by resear
 
 In 2011, Hinsberg.et.al published a paper https://www.sciencedirect.com/science/article/pii/S0021999110006224?via%3Dihub, which provides an efficient way to numerically implement the history force term.
 
-In this code, we will be looking at an implementation of basset force term using python code . Further, investigation of the influnece of the hustory force term on the velcoity of particles is also presented using iamges.
+In this code, we will be looking at an implementation of basset force term using python code . Further, investigation of the influnece of the history force term on the velcoity of particles is also presented using an image. This project was done in collaboration with Dr.Pedram Pakseresht, Professor Sourabh V. Apte

@@ -119,16 +119,12 @@ if __name__ =="__main__":
     ti_bar=[0.1,0.3,1,3,10,40,190,1000,6500,50000]
     #particle velocity calculated
     vel = particle_vel()
-    print(vel[-5:-1])
+    #print(vel[-5:-1])
     N_win = 5 #python index from 0 to N-1 5points here from 0 to N-1
     vel_history = particle_vel_history()
-    print(vel_history[-5:-1])
+    #print(vel_history[-5:-1])
 
-    ###########plotting
-    plt.figure(1)
-    plt.plot(time,vel)
-    plt.plot(time,vel_history)
-    plt.show()
+
     
 
     
